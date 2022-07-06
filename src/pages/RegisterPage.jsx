@@ -1,17 +1,40 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useRegisterMutation } from 'redux/auth/authApi';
 import { setIsSignedIn } from 'redux/auth/auth-slice';
-import { Form, Fieldset, Label, Input, Button } from './RegisterPage.styled';
+import {
+  Button,
+  TextField,
+  Box,
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  InputLabel,
+  FormControl,
+} from '@mui/material';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useSnackbar } from 'notistack';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
-  const [register, { data, isSuccess }] = useRegisterMutation();
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = e => {
+    e.preventDefault();
+  };
+
+  const [register, { data, isLoading, isSuccess, isError }] =
+    useRegisterMutation();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -23,7 +46,6 @@ export default function RegisterPage() {
     setName('');
     setEmail('');
     setPassword('');
-    toast.success('You have registered successfully');
   };
 
   const handleChange = ({ target: { name, value } }) => {
@@ -47,45 +69,97 @@ export default function RegisterPage() {
           token: data.token,
         })
       );
+      enqueueSnackbar('You have registered successfully', {
+        variant: 'success',
+      });
+    }
+    if (isError) {
+      enqueueSnackbar('Something went wrong, please try again later', {
+        variant: 'error',
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, isSuccess]);
+  }, [dispatch, isSuccess, isError]);
 
   return (
-    <div>
-      {/* <Form onSubmit={handleSubmit} autoComplete="off"> */}
-      <Form onSubmit={handleSubmit} autoComplete="on">
-        <Fieldset>
-          <Label>
-            Name
-            <Input
-              type="text"
-              name="name"
-              value={name}
-              onChange={handleChange}
-            />
-          </Label>
-          <Label>
-            Mail
-            <Input
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleChange}
-            />
-          </Label>
-          <Label>
-            Password
-            <Input
-              type="password"
-              name="password"
-              value={password}
-              onChange={handleChange}
-            />
-          </Label>
-        </Fieldset>
-        <Button type="submit">Sign up</Button>
-      </Form>
-    </div>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      // autoComplete="off"
+      sx={{
+        padding: '2rem',
+        maxWidth: '20rem',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gridGap: '0.3rem',
+        alignItems: 'baseline',
+      }}
+    >
+      <TextField
+        label="Name"
+        size="small"
+        margin="normal"
+        type="text"
+        name="name"
+        value={name}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        label="Mail"
+        size="small"
+        margin="normal"
+        type="email"
+        name="email"
+        value={email}
+        onChange={handleChange}
+        required
+      />
+      <FormControl variant="outlined">
+        <InputLabel
+          htmlFor="outlined-adornment-password"
+          sx={{ lineHeight: '2.4375em' }}
+        >
+          Password *
+        </InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-password"
+          type={showPassword ? 'text' : 'password'}
+          label="Password"
+          name="password"
+          value={password}
+          onChange={handleChange}
+          size="small"
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          sx={{ m: '1rem 0', lineHeight: '4em' }}
+        />
+      </FormControl>
+      <Button
+        variant="contained"
+        type="submit"
+        margin="normal"
+        sx={{ width: '8rem' }}
+        endIcon={
+          isLoading ? (
+            <CircularProgress size={16} thickness={6} color="inherit" />
+          ) : (
+            <AppRegistrationIcon />
+          )
+        }
+      >
+        Sign up
+      </Button>
+    </Box>
   );
 }

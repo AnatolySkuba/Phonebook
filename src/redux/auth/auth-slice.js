@@ -18,12 +18,12 @@ export const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
-    isLoggedOut(state, _) {
+    logOutState(state, _) {
       state.user = { name: null, email: null };
       state.token = null;
     },
   },
 });
 
-export const { setUser, setIsSignedIn, setIsLoggedIn, isLoggedOut } =
+export const { setUser, setIsSignedIn, setIsLoggedIn, logOutState } =
   authSlice.actions;

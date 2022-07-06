@@ -21,14 +21,6 @@ export const authApi = createApi({
       providesTags: ['Auth'],
     }),
 
-    // deleteContact: builder.mutation({
-    //   query: contactId => ({
-    //     url: `/contacts/${contactId}`,
-    //     method: 'DELETE',
-    //   }),
-    //   invalidatesTags: ['Contacts'],
-    // }),
-
     register: builder.mutation({
       query: newUser => ({
         url: '/users/signup',
@@ -66,7 +58,6 @@ export const authApi = createApi({
 
 export const {
   useGetAuthQuery,
-  //   useDeleteContactMutation,
   useRegisterMutation,
   useLoginMutation,
   useLogoutMutation,

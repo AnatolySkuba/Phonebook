@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { AppBar } from 'components/AppBar/AppBar';
+import ButtonAppBar from 'components/AppBar/AppBar';
 import ProtectedRoute from 'components/PrivateRoute';
 import PublicRoute from 'components/PublicRoute';
 
@@ -22,9 +22,9 @@ const ContactsPage = lazy(() =>
 
 export default function App() {
   return (
-    <Suspense fallback="">
+    <Suspense fallback={<ButtonAppBar />}>
       <Routes>
-        <Route path="/goit-react-hw-08-phonebook/" element={<AppBar />}>
+        <Route path="/goit-react-hw-08-phonebook/" element={<ButtonAppBar />}>
           <Route index element={<HomePage />} />
           <Route
             path="register"
