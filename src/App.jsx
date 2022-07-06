@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import ButtonAppBar from 'components/AppBar/AppBar';
 import ProtectedRoute from 'components/PrivateRoute';
 import PublicRoute from 'components/PublicRoute';
@@ -51,6 +51,12 @@ export default function App() {
             }
           />
         </Route>
+        <Route
+          path="*"
+          element={
+            <Navigate to="/goit-react-hw-08-phonebook/" replace={true} />
+          }
+        />
       </Routes>
     </Suspense>
   );

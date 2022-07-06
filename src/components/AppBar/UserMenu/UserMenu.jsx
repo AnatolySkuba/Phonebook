@@ -11,44 +11,55 @@ import { useSnackbar } from 'notistack';
 export default function UserMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [Logout, { isLoading, isSuccess, isError }] = useLogoutMutation();
+  const [LogOutApi, { isLoading, isSuccess, isError, error }] =
+    useLogoutMutation();
   const isToken = useSelector(getToken);
   const [isSkip, setIsSkip] = useState(false);
   const { data } = useGetAuthQuery(null, { skip: isSkip || !isToken });
   const { enqueueSnackbar } = useSnackbar();
-  const [isLoggedOut, setIsLoggedOut] = useState(false);
-
-  console.log('isLoading, isSuccess, isError', isLoading, isSuccess, isError);
+  const [isLoggedOutApi, setIsLoggedOutApi] = useState(false);
 
   const handleLogout = async () => {
-    console.log('handleLogout', isLoading, isSuccess, isError);
     setIsSkip(true);
-    try {
-      await Logout();
-    } catch (error) {
-      console.log('catch', error, isLoading, isSuccess, isError);
-    }
+    await LogOutApi();
   };
 
   useEffect(() => {
     if (isSuccess) {
       navigate('/goit-react-hw-08-phonebook/');
-      setIsLoggedOut(true);
+      setIsLoggedOutApi(true);
     }
-    isError &&
+    if (isError && error?.originalStatus === 404) {
+      enqueueSnackbar("Sorry, we can't find this page", {
+        variant: 'error',
+      });
+    } else if (isError && error?.status === 'FETCH_ERROR') {
+      enqueueSnackbar('Internet is disconnected', {
+        variant: 'error',
+      });
+    } else if (isError) {
       enqueueSnackbar('Something went wrong, please try again later', {
         variant: 'error',
       });
-  }, [enqueueSnackbar, isError, isLoading, isSuccess, navigate]);
+    }
+  }, [
+    enqueueSnackbar,
+    error?.originalStatus,
+    error?.status,
+    isError,
+    isLoading,
+    isSuccess,
+    navigate,
+  ]);
 
   useEffect(() => {
-    if (isLoggedOut) {
+    if (isLoggedOutApi) {
       dispatch(logOutState());
       enqueueSnackbar('You have logged out successfully', {
         variant: 'success',
       });
     }
-  }, [dispatch, enqueueSnackbar, isLoggedOut]);
+  }, [dispatch, enqueueSnackbar, isLoggedOutApi]);
 
   if (data) {
     return (

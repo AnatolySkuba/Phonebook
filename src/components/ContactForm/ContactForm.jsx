@@ -11,7 +11,7 @@ export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const { data } = useGetContactsQuery();
-  const [addContact, { isLoading, isSuccess, isError }] =
+  const [addContactApi, { isLoading, isSuccess, isError, error }] =
     useAddContactMutation();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -20,7 +20,7 @@ export default function ContactForm() {
 
     data.some(contact => contact.name === name)
       ? alert(`${name} is already in contacts`)
-      : addContact({
+      : addContactApi({
           name: name,
           number: number,
         });
@@ -50,11 +50,27 @@ export default function ContactForm() {
       enqueueSnackbar('Contact added successfully', {
         variant: 'success',
       });
-    isError &&
+    if (isError && error?.originalStatus === 404) {
+      enqueueSnackbar("Sorry, we can't find this page", {
+        variant: 'error',
+      });
+    } else if (isError && error?.status === 'FETCH_ERROR') {
+      enqueueSnackbar('Internet is disconnected', {
+        variant: 'error',
+      });
+    } else if (isError) {
       enqueueSnackbar('Something went wrong, please try again later', {
         variant: 'error',
       });
-  }, [closeSnackbar, isSuccess, isError, enqueueSnackbar]);
+    }
+  }, [
+    closeSnackbar,
+    isSuccess,
+    isError,
+    enqueueSnackbar,
+    error?.originalStatus,
+    error?.status,
+  ]);
 
   return (
     <Box

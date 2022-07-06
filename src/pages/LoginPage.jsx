@@ -23,9 +23,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const [login, { data, isLoading, isSuccess, isError }] = useLoginMutation();
-
-  // console.log('isLoading, isSuccess, isError', isLoading, isSuccess, isError);
+  const [login, { data, isLoading, isSuccess, isError, error }] =
+    useLoginMutation();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -65,13 +64,26 @@ export default function LoginPage() {
         variant: 'success',
       });
     }
-    if (isError) {
+
+    if (isError && error?.originalStatus === 404) {
+      enqueueSnackbar("Sorry, we can't find this page", {
+        variant: 'error',
+      });
+    } else if (isError && error?.status === 400) {
+      enqueueSnackbar('Invalid email or password', {
+        variant: 'error',
+      });
+    } else if (isError && error?.status === 'FETCH_ERROR') {
+      enqueueSnackbar('Internet is disconnected', {
+        variant: 'error',
+      });
+    } else if (isError) {
       enqueueSnackbar('Something went wrong, please try again later', {
         variant: 'error',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, isSuccess, isError]);
+  }, [dispatch, isSuccess, isError, error?.originalStatus, error?.status]);
 
   return (
     <Box
