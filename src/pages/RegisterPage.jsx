@@ -24,6 +24,8 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const [register, { data, isLoading, isSuccess, isError, error }] =
+    useRegisterMutation();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -32,9 +34,6 @@ export default function RegisterPage() {
   const handleMouseDownPassword = e => {
     e.preventDefault();
   };
-
-  const [register, { data, isLoading, isSuccess, isError, error }] =
-    useRegisterMutation();
 
   const handleSubmit = async e => {
     e.preventDefault();

@@ -20,8 +20,6 @@ const authPersistConfig = {
   whitelist: ['token'],
 };
 
-// const mymiddleware = () => console.log('456');
-
 const authReducer = persistReducer(authPersistConfig, authSlice.reducer);
 
 export const store = configureStore({
@@ -38,7 +36,6 @@ export const store = configureStore({
     }),
     contactsApi.middleware,
     authApi.middleware,
-    // mymiddleware,
   ],
 });
 
