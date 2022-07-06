@@ -33,7 +33,7 @@ export default function RegisterPage() {
     e.preventDefault();
   };
 
-  const [register, { data, isLoading, isSuccess, isError }] =
+  const [register, { data, isLoading, isSuccess, isError, error }] =
     useRegisterMutation();
 
   const handleSubmit = async e => {
@@ -73,7 +73,15 @@ export default function RegisterPage() {
         variant: 'success',
       });
     }
-    if (isError) {
+    if (isError && error?.originalStatus === 400) {
+      enqueueSnackbar('Error creating user', {
+        variant: 'error',
+      });
+    } else if (isError && error?.status === 'FETCH_ERROR') {
+      enqueueSnackbar('Internet is disconnected', {
+        variant: 'error',
+      });
+    } else if (isError) {
       enqueueSnackbar('Something went wrong, please try again later', {
         variant: 'error',
       });

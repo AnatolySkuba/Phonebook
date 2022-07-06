@@ -1,32 +1,42 @@
 import { useState, useEffect } from 'react';
 import {
   useGetContactsQuery,
-  useAddContactMutation,
+  useUpdateContactMutation,
 } from 'redux/contacts/contactsApi';
 import { Button, TextField, Box, CircularProgress } from '@mui/material';
-import { AddIcCall } from '@mui/icons-material';
+import UpdateIcon from '@mui/icons-material/Update';
 import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
 
-export default function ContactForm() {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+export default function UpdateContactItem({
+  id,
+  currentName,
+  currentNumber,
+  updateContact,
+}) {
+  const [name, setName] = useState(currentName);
+  const [number, setNumber] = useState(currentNumber);
   const { data } = useGetContactsQuery();
-  const [addContactApi, { isLoading, isSuccess, isError, error }] =
-    useAddContactMutation();
+  const [updateContactApi, { isLoading, isSuccess, isError, error }] =
+    useUpdateContactMutation();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    data.some(contact => contact.name === name)
-      ? alert(`${name} is already in contacts`)
-      : addContactApi({
-          name: name,
-          number: number,
-        });
-
-    setName('');
-    setNumber('');
+    if (data.some(contact => contact.name === name && name !== currentName)) {
+      enqueueSnackbar('This contact is already in the contacts', {
+        variant: 'error',
+      });
+    } else if (name === currentName && number === currentNumber) {
+      updateContact(id);
+    } else {
+      updateContactApi({
+        id: id,
+        name: name,
+        number: number,
+      });
+    }
   };
 
   const handleChange = evt => {
@@ -46,12 +56,15 @@ export default function ContactForm() {
   };
 
   useEffect(() => {
-    isSuccess &&
-      enqueueSnackbar('Contact added successfully', {
+    if (isSuccess) {
+      updateContact(id);
+      enqueueSnackbar('Contact successfully updated', {
         variant: 'success',
       });
-    if (isError && error?.originalStatus === 404) {
-      enqueueSnackbar("Sorry, we can't find this page", {
+    }
+
+    if (isError && error?.originalStatus === 400) {
+      enqueueSnackbar('Error updating contact', {
         variant: 'error',
       });
     } else if (isError && error?.status === 'FETCH_ERROR') {
@@ -70,6 +83,8 @@ export default function ContactForm() {
     enqueueSnackbar,
     error?.originalStatus,
     error?.status,
+    updateContact,
+    id,
   ]);
 
   return (
@@ -79,14 +94,12 @@ export default function ContactForm() {
       // autoComplete="off"
       sx={{
         display: 'flex',
-        flexDirection: 'column',
-        width: '20rem',
-        border: '1px solid #005BBB',
-        padding: '0 1rem',
+        alignItems: 'baseline',
+        padding: '0rem',
       }}
     >
       <TextField
-        label="Name"
+        variant="standard"
         size="small"
         margin="normal"
         type="text"
@@ -95,10 +108,13 @@ export default function ContactForm() {
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         onChange={handleChange}
+        sx={{
+          width: `${Math.max(name.length / 1.75, 1)}rem`,
+        }}
         required
       />
       <TextField
-        label="Number"
+        variant="standard"
         size="small"
         margin="normal"
         type="tel"
@@ -107,23 +123,34 @@ export default function ContactForm() {
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         onChange={handleChange}
+        sx={{
+          width: `${Math.max(number.length / 1.75, 1)}rem`,
+          m: '0 1rem',
+        }}
         required
       />
       <Button
         variant="contained"
         type="submit"
         margin="normal"
-        sx={{ width: '15rem', m: '1rem 0' }}
+        sx={{ width: '12rem', m: '0 1rem' }}
         endIcon={
           isLoading ? (
             <CircularProgress size={16} thickness={6} color="inherit" />
           ) : (
-            <AddIcCall />
+            <UpdateIcon />
           )
         }
       >
-        Add contact
+        Update contact
       </Button>
     </Box>
   );
 }
+
+UpdateContactItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  currentName: PropTypes.string.isRequired,
+  currentNumber: PropTypes.string.isRequired,
+  updateContact: PropTypes.func.isRequired,
+};

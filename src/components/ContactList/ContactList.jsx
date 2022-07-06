@@ -14,7 +14,7 @@ export default function ContactList({ filter }) {
     return (
       <List sx={{ mt: '0.5rem' }}>
         {contactsFiltered.map(({ id, name, number }) => (
-          <ListItem key={id}>
+          <ListItem key={id} sx={{ height: '40px' }}>
             <ContactItem id={id} name={name} number={number} />
           </ListItem>
         ))}
