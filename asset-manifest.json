@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/goit-react-hw-08-phonebook/static/css/main.7acaea2f.css",
-    "main.js": "/goit-react-hw-08-phonebook/static/js/main.ee06f9ee.js",
+    "main.js": "/goit-react-hw-08-phonebook/static/js/main.8f838539.js",
     "HomePage.js": "/goit-react-hw-08-phonebook/static/js/HomePage.520b1376.chunk.js",
     "LoginPage.js": "/goit-react-hw-08-phonebook/static/js/LoginPage.a79aff6b.chunk.js",
-    "RegisterPage.js": "/goit-react-hw-08-phonebook/static/js/RegisterPage.a907de82.chunk.js",
-    "ContactsPage.js": "/goit-react-hw-08-phonebook/static/js/ContactsPage.1d3ab82e.chunk.js",
+    "RegisterPage.js": "/goit-react-hw-08-phonebook/static/js/RegisterPage.2f55f716.chunk.js",
+    "ContactsPage.js": "/goit-react-hw-08-phonebook/static/js/ContactsPage.28a1e4a2.chunk.js",
     "static/js/97.a3a7b012.chunk.js": "/goit-react-hw-08-phonebook/static/js/97.a3a7b012.chunk.js",
     "index.html": "/goit-react-hw-08-phonebook/index.html",
     "main.7acaea2f.css.map": "/goit-react-hw-08-phonebook/static/css/main.7acaea2f.css.map",
-    "main.ee06f9ee.js.map": "/goit-react-hw-08-phonebook/static/js/main.ee06f9ee.js.map",
+    "main.8f838539.js.map": "/goit-react-hw-08-phonebook/static/js/main.8f838539.js.map",
     "HomePage.520b1376.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/HomePage.520b1376.chunk.js.map",
     "LoginPage.a79aff6b.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/LoginPage.a79aff6b.chunk.js.map",
-    "RegisterPage.a907de82.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/RegisterPage.a907de82.chunk.js.map",
-    "ContactsPage.1d3ab82e.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/ContactsPage.1d3ab82e.chunk.js.map",
+    "RegisterPage.2f55f716.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/RegisterPage.2f55f716.chunk.js.map",
+    "ContactsPage.28a1e4a2.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/ContactsPage.28a1e4a2.chunk.js.map",
     "97.a3a7b012.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/97.a3a7b012.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7acaea2f.css",
-    "static/js/main.ee06f9ee.js"
+    "static/js/main.8f838539.js"
   ]
 }
