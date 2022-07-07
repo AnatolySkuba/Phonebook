@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-08-phonebook",
+  "name": "Phonebook",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://AnatoliiSkuba.github.io/goit-react-hw-08-phonebook/",
+  "homepage": "https://AnatoliiSkuba.github.io/Phonebook/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",

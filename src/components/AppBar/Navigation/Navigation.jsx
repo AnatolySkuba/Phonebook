@@ -8,26 +8,19 @@ export const Navigation = () => {
   const location = useLocation();
 
   const pathNames = ['/', '/contacts'];
-  const currentPathName = location.pathname.split(
-    '/goit-react-hw-08-phonebook'
-  )[1];
+  const currentPathName = location.pathname.split('/Phonebook')[1];
   const currentValue = pathNames.some(e => e === currentPathName)
     ? currentPathName
     : false;
 
   return (
     <Tabs value={currentValue} aria-label="nav tabs example">
-      <Tab
-        value="/"
-        component={Link}
-        to="/goit-react-hw-08-phonebook/"
-        label="Home"
-      />
+      <Tab value="/" component={Link} to="/Phonebook/" label="Home" />
       {isToken && (
         <Tab
           value="/contacts"
           component={Link}
-          to="/goit-react-hw-08-phonebook/contacts"
+          to="/Phonebook/contacts"
           label="Contacts"
         />
       )}

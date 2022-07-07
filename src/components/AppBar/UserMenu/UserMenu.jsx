@@ -26,7 +26,7 @@ export default function UserMenu() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/goit-react-hw-08-phonebook/');
+      navigate('/Phonebook/');
       setIsLoggedOutApi(true);
     }
     if (isError && error?.originalStatus === 404) {

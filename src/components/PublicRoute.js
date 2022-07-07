@@ -6,7 +6,7 @@ export default function PublicRoute({ children }) {
   const isToken = useSelector(getToken);
 
   if (isToken) {
-    return <Navigate to="/goit-react-hw-08-phonebook/contacts" replace />;
+    return <Navigate to="/Phonebook/contacts" replace />;
   }
 
   return children;
