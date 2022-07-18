@@ -40,12 +40,14 @@ export default function ButtonAppBar() {
         <ThemeProvider theme={darkTheme}>
           <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color="primary">
-              <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  <Navigation />
-                </Typography>
-                {isToken ? <UserMenu /> : <AuthNav />}
-              </Toolbar>
+              <Container sx={{ mt: '1rem' }}>
+                <Toolbar>
+                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Navigation />
+                  </Typography>
+                  {isToken ? <UserMenu /> : <AuthNav />}
+                </Toolbar>
+              </Container>
             </AppBar>
           </Box>
         </ThemeProvider>
