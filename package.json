@@ -2,7 +2,7 @@
   "name": "Phonebook",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://AnatoliiSkuba.github.io/Phonebook/",
+  "homepage": "https://AnatolySkuba.github.io/Phonebook/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
